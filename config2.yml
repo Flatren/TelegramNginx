@@ -1,0 +1,25 @@
+nameRule: super
+keyWord: "#tag"
+rulesTime:
+  - begin: 10:23
+    end: 23:11
+    dayOfWeeks:
+      - пн
+      - вт
+      - ср
+      - чт
+      - пт
+  - begin: 20:12
+    end: 23:23
+    dayOfWeeks:
+      - сб
+      - вс
+info: "@asd @asd @asd @asd"
+from:
+  - 1234:123
+  - 1234:123
+  - 1234:123
+to:
+  - 1234:123
+  - 1234:123
+  - 1234:123

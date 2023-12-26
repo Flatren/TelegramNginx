@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+    <changeSet id="221220230607" author="alex">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM information_schema.tables WHERE table_name = 'RULES_CHAT_TO_CHAT';
+            </sqlCheck>
+        </preConditions>
+        <comment>create RULES_CHAT_TO_CHAT</comment>
+        <sql><![CDATA[
+            create table if not exists RULES_CHAT_TO_CHAT
+            (
+                RULE_NAME TEXT PRIMARY KEY,
+                DATA_JSON TEXT
+            );
+            ]]>
+        </sql>
+
+    </changeSet>
+    <changeSet id="221220230724" author="alex">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM information_schema.tables WHERE table_name = 'BOT_SERVERS';
+            </sqlCheck>
+        </preConditions>
+        <comment>create BOT_SERVERS</comment>
+        <sql><![CDATA[
+            create table if not exists BOT_SERVERS
+            (
+                NAME_SERVER TEXT PRIMARY KEY,
+                ADDRESS TEXT
+            );
+            ]]>
+        </sql>
+
+    </changeSet>
+    <changeSet id="251220231045" author="alex">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM information_schema.tables WHERE table_name = 'SEND_MESSAGE';
+            </sqlCheck>
+        </preConditions>
+        <comment>create SEND_MESSAGE</comment>
+        <sql><![CDATA[
+            create table if not exists SEND_MESSAGE
+            (
+                ID BIGSERIAL PRIMARY KEY,
+                ID_MESSAGE_IN_TELEGRAM BIGINT,
+                MESSAGE_JSON TEXT,
+                IS_SEND BOOLEAN,
+                IS_SENDING_ATTEMPT BOOLEAN,
+                TEXT_ERROR_SEND TEXT
+            );
+            ]]>
+        </sql>
+
+    </changeSet>
+</databaseChangeLog>
