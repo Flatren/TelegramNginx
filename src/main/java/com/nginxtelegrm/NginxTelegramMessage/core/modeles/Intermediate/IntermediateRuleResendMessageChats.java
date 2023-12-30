@@ -1,9 +1,6 @@
 package com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate;
 
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleTime;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;

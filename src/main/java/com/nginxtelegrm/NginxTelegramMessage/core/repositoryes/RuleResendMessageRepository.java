@@ -69,7 +69,7 @@ public class RuleResendMessageRepository {
         return ruleResendHashMap.get(nameRule);
     }
 
-    public List<RuleResend> getAll(String nameRule){
+    public List<RuleResend> getAll(){
         return ruleResendHashMap.values().stream().toList();
     }
 

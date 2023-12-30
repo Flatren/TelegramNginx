@@ -2,7 +2,7 @@ package com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.resendContro
 
 import com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.role.AdminRole;
 import com.nginxtelegrm.NginxTelegramMessage.core.controller.MessengerController;
-import com.nginxtelegrm.NginxTelegramMessage.core.map.Map;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.map.Map;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleResendMessageChats;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
 import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RuleResendMessageRepository;

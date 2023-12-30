@@ -1,10 +1,7 @@
 package com.nginxtelegrm.NginxTelegramMessage.repositoryes;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Bots;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.InfoCommand;
 import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.Rule;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -33,13 +30,14 @@ public class RulesRepository {
         }
     }
 
+
     public List<Rule> get(AddressChat addressChat){
 
-        ArrayList<Rule> rulesResult = new ArrayList<>();
+        List<Rule> rulesResult = new ArrayList<>();
 
         this.rules.values().forEach(ruleList->{
                     for (Rule rule : ruleList) {
-                        if (rule.getAllChats())
+                        if (rule.getChats().size() == 0)
                             rulesResult.add(rule);
                         else {
                             for (AddressChat address : rule.getChats()) {

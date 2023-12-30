@@ -4,6 +4,7 @@ import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Command;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
 import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
 import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.InfoCommand;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
@@ -71,4 +72,13 @@ public class Map {
         return message;
     }
 
+    public static SendMessage mapSendMessage(Message message){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(message.getText());
+        sendMessage.enableHtml(true);
+        sendMessage.setDisableWebPagePreview(true);
+        sendMessage.setChatId(message.getIdChat());
+        sendMessage.setMessageThreadId(message.getIdTread());
+        return sendMessage;
+    }
 }

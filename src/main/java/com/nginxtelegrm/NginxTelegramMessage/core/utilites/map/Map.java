@@ -1,4 +1,4 @@
-package com.nginxtelegrm.NginxTelegramMessage.core.map;
+package com.nginxtelegrm.NginxTelegramMessage.core.utilites.map;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.exceptions.MapException;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
@@ -9,7 +9,6 @@ import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInCha
 import lombok.SneakyThrows;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Map {

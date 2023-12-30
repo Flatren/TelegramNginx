@@ -1,19 +1,16 @@
-package com.nginxtelegrm.NginxTelegramMessage.core.collection;
+package com.nginxtelegrm.NginxTelegramMessage.core.store;
 
 import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
-public class ChatMessagesOnSend {
-
+public class StoreMessagesToSendOnChat {
     ConcurrentLinkedQueue<Message> sendMessageConcurrentLinkedQueue;
     ConcurrentLinkedQueue<Message> fastSendMessageConcurrentLinkedQueue;
     long lastTimeSendMessage;
 
-    public ChatMessagesOnSend(){
+    public StoreMessagesToSendOnChat(){
         sendMessageConcurrentLinkedQueue = new ConcurrentLinkedQueue<>();
         fastSendMessageConcurrentLinkedQueue = new ConcurrentLinkedQueue<>();
         lastTimeSendMessage = System.currentTimeMillis() - 3000;

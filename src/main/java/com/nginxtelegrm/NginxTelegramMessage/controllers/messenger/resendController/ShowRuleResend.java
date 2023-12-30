@@ -2,8 +2,6 @@ package com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.resendContro
 
 import com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.role.AdminRole;
 import com.nginxtelegrm.NginxTelegramMessage.core.controller.MessengerController;
-import com.nginxtelegrm.NginxTelegramMessage.core.map.Map;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleResendMessageChats;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
 import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RuleResendMessageRepository;
 import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
@@ -30,5 +28,15 @@ public class ShowRuleResend extends MessengerController {
             return Optional.of(newMessage(message, Parser.dumpYaml(ruleResend, RuleResend.class)));
         else
             return Optional.of(newMessage(message, "Правило с данным именем отсутствует."));
+    }
+
+    @Override
+    public Optional<Message> executeCommand(Message message){
+       List<RuleResend> ruleResends = ruleResendMessageRepository.getAll();
+
+        if (ruleResends.size() != 0)
+            return Optional.of(newMessage(message, ruleResends.stream().map(RuleResend::getNameRule).toString()));
+        else
+            return Optional.of(newMessage(message, "Правила отсутствуют."));
     }
 }

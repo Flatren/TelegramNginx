@@ -19,4 +19,5 @@ public class RuleResend {
     String info;
     String keyWord;
     List<RuleTime> rulesTime;
+
 }
