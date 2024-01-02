@@ -1,18 +1,18 @@
-package com.nginxtelegrm.NginxTelegramMessage.core.service;
+package com.nginxtelegrm.NginxTelegramMessage.core.services;
 import com.nginxtelegrm.NginxTelegramMessage.core.enums.TypeError;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
-import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.MessageSendRepository;
-import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.ReceivedMessageRepository;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.services.CheckService;
-import com.nginxtelegrm.NginxTelegramMessage.services.Parser;
-import com.nginxtelegrm.NginxTelegramMessage.services.ResendingService;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.ErrorMessageRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.MessageToSendRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.CheckService;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Parser;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,20 +22,24 @@ public class MessengerService {
     @Autowired
     private MeterRegistry meterRegistry;
     @Autowired
-    MessageSendRepository messageSendRepository;
+    MessageToSendRepository messageToSendRepository;
     @Autowired
     ResendingService resendingService;
     @Autowired
     ControllersService controllersService;
     @Autowired
     ResendMessageService resendMessageService;
+    @Autowired
+    LoggerMessengerService loggerMessengerService;
 
     Logger logger = LoggerFactory.getLogger(MessengerService.class);
 
     @Autowired
-    ReceivedMessageRepository receivedMessageRepository;
-    @Autowired
-    MessageToSendService messageToSendService;
+    ErrorMessageRepository errorMessageRepository;
+
+    private Double counterMessagesTemp=0.0;
+    private Double counterSendMessageTemp=0.0;
+    private Double counterErrorSendMessageTemp=0.0;
 
     private Counter counterMessages;
     private Counter counterSendMessage;
@@ -57,21 +61,12 @@ public class MessengerService {
                         .register(meterRegistry);
     }
 
-    public void readAllMessageUnseen(){
-        // TODO
-        //Запускаем раз во сколько то времени
-        //Берем все сообщения из бд
-        //запускаем processTheMessage для каждого сообщения
-        //обрабатываем ошибки
-        //меняем статусы
-    }
-
     public List<Message> getListSendMessage(){
-        return messageSendRepository.getMessageToSend();
+        return messageToSendRepository.getMessageToSend();
     }
 
     public void processTheMessage(Message message){
-        receivedMessageRepository.insert(message);
+
         counterMessages.increment();
         if (CheckService.isCommand(message.getText())) {
             IntermediateCommand intermediateCommand = Parser.parseStringToIntermediateCommand(message.getText());
@@ -81,16 +76,35 @@ public class MessengerService {
             resendMessageService.execute(message);
             resendingService.resendingMessage(message);
         }
-        receivedMessageRepository.setTrueIsProcessed(message);
+
+    }
+
+    // Каждый час предоставляет статистику в мессенджер
+    @Scheduled(fixedDelay = 1000*60*60)
+    public void showStatistic(){
+        loggerMessengerService.INFO(
+                "Отпрвлено удачно: " + (counterSendMessage.count()-counterMessagesTemp) +
+                "\nОшибок при отпрвлении: " + (counterErrorSendMessage.count()-counterSendMessageTemp) +
+                "\nПопыток отпрвить всего: " + (counterMessages.count()-counterErrorSendMessageTemp)
+        );
+        counterMessagesTemp = counterMessages.count();
+        counterSendMessageTemp = counterSendMessage.count();
+        counterErrorSendMessageTemp = counterErrorSendMessage.count();
     }
 
     //Сообщить о том, что произошла ошибка
     public void ReportError(Message message, String report, TypeError typeError){
-        // TODO
+        counterErrorSendMessage.increment();
+        if (typeError == TypeError.INTERNET)
+            messageToSendRepository.insert(message, true);
+        errorMessageRepository.insert(message, report);
+        if (!message.getIsLogMessage())
+            loggerMessengerService.ERROR(report);
     }
 
     //Подтвердить, что сообщение отправлено
-    public void confirmSendingTheMessage(Message message, Integer idMessage){
-        // TODO
+    public void confirmSendingTheMessage(Message message){
+        counterSendMessage.increment();
+        messageToSendRepository.update(message);
     }
 }

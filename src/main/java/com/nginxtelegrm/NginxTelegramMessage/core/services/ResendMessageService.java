@@ -1,11 +1,11 @@
-package com.nginxtelegrm.NginxTelegramMessage.core.service;
+package com.nginxtelegrm.NginxTelegramMessage.core.services;
 
-import com.nginxtelegrm.NginxTelegramMessage.core.collection.SendMessageCollection;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleChatToChat;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.MessageToSendRepository;
 import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RuleResendMessageRepository;
 import com.nginxtelegrm.NginxTelegramMessage.core.utilites.GenerateHtmlText;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class ResendMessageService {
     @Autowired
     private RuleResendMessageRepository ruleResendMessageRepository;
     @Autowired
-    private SendMessageCollection sendMessageCollection;
+    private MessageToSendRepository messageSendRepository;
 
     HashMap<String, LocalDateTime> longLocalDateTimeHashMap=new HashMap<>();
 
@@ -39,14 +39,13 @@ public class ResendMessageService {
     }
 
     public void execute(Message message){
+
         AddressChat addressChat = new AddressChat();
 
         addressChat.setIdChat(message.getIdChat());
         addressChat.setIdThread(message.getIdTread());
 
-        List<RuleResend> ruleResends = ruleResendMessageRepository.select(addressChat, message.getText());
-
-
+        List<RuleChatToChat> ruleResends = ruleResendMessageRepository.select(addressChat, message.getText());
 
         ruleResends.forEach(ruleResend -> {
             if (ruleResend.getKeyWord() == null)
@@ -73,7 +72,7 @@ public class ResendMessageService {
                                     + GenerateHtmlText.escape(ruleResend.getInfo())
                                     +"\n\n"
                                     + GenerateHtmlText.escape(message.getText()));
-                sendMessageCollection.addMessage(sendMessage, false);
+                messageSendRepository.insert(sendMessage);
             });
         });
 

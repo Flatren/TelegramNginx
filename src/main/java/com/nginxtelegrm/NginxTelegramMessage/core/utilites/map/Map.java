@@ -4,7 +4,7 @@ import com.nginxtelegrm.NginxTelegramMessage.core.exceptions.MapException;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleResendMessageChats;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleTime;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleChatToChat;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleTime;
 import lombok.SneakyThrows;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class Map {
 
     @SneakyThrows
-    public static RuleResend map(IntermediateRuleResendMessageChats intermediateRuleResendMessageChats){
+    public static RuleChatToChat map(IntermediateRuleResendMessageChats intermediateRuleResendMessageChats){
 
         // TODO дописать все проверки
         if (intermediateRuleResendMessageChats.getFrom() == null)
@@ -26,7 +26,7 @@ public class Map {
         if (intermediateRuleResendMessageChats.getTo().size() == 0)
             throw new MapException("Не задан to");
 
-        RuleResend ruleResend = new RuleResend();
+        RuleChatToChat ruleResend = new RuleChatToChat();
         ruleResend.setInfo(intermediateRuleResendMessageChats.getInfo());
         ruleResend.setKeyWord(intermediateRuleResendMessageChats.getKeyWord());
         ruleResend.setNameRule(intermediateRuleResendMessageChats.getNameRule());
@@ -50,11 +50,11 @@ public class Map {
         return ruleResend;
     }
     @SneakyThrows
-    public static RuleResend mapSimple(IntermediateRuleResendMessageChats intermediateRuleResendMessageChats){
+    public static RuleChatToChat mapSimple(IntermediateRuleResendMessageChats intermediateRuleResendMessageChats){
         if (intermediateRuleResendMessageChats.getNameRule() == null)
             throw new MapException("Не задано название.");
 
-        RuleResend ruleResend = new RuleResend();
+        RuleChatToChat ruleResend = new RuleChatToChat();
         ruleResend.setInfo(intermediateRuleResendMessageChats.getInfo());
         ruleResend.setKeyWord(intermediateRuleResendMessageChats.getKeyWord());
         ruleResend.setNameRule(intermediateRuleResendMessageChats.getNameRule());

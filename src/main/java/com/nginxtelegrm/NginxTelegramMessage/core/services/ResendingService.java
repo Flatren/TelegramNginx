@@ -1,14 +1,17 @@
-package com.nginxtelegrm.NginxTelegramMessage.services;
-import com.nginxtelegrm.NginxTelegramMessage.core.collection.SendMessageCollection;
+package com.nginxtelegrm.NginxTelegramMessage.core.services;
+
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Command;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
 
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.ResultCheckTypeParams;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.InfoCommand;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.Rule;
-import com.nginxtelegrm.NginxTelegramMessage.repositoryes.RulesRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.MessageToSendRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.CheckService;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.ResultCheckTypeParams;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.InfoCommand;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.Rule;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RulesRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +25,7 @@ public class ResendingService {
     RulesRepository rulesRepository;
 
     @Autowired
-    SendMessageCollection sendMessageCollection;
+    MessageToSendRepository messageSendRepository;
 
     @Autowired
     SendMessageToBotsService sendMessageService;
@@ -56,7 +59,7 @@ public class ResendingService {
 
                     sendMessage.setText(stringBuilder.toString());
 
-                    sendMessageCollection.addMessage(sendMessage, true);
+                    messageSendRepository.insert(sendMessage);
 
                 }
             }

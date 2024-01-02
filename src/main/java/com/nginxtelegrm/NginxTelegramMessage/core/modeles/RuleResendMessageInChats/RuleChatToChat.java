@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RuleResend {
+public class RuleChatToChat {
     String nameRule;
     List<AddressChat> from;
     List<AddressChat> to;

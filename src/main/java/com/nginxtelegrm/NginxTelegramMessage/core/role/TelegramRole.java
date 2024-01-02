@@ -1,7 +1,6 @@
 package com.nginxtelegrm.NginxTelegramMessage.core.role;
 
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 
 public abstract class TelegramRole {
 

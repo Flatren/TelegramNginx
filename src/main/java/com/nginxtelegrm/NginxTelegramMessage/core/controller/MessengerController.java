@@ -2,10 +2,10 @@ package com.nginxtelegrm.NginxTelegramMessage.core.controller;
 
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.MessageToSendRepository;
 import com.nginxtelegrm.NginxTelegramMessage.core.role.TelegramRole;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.core.collection.SendMessageCollection;
-import com.nginxtelegrm.NginxTelegramMessage.services.Parser;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Parser;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public abstract class MessengerController {
     private final ArrayList<Type> typeParams;
     protected final Boolean isDownloadFiles=false;
     @Autowired
-    protected SendMessageCollection sendMessageCollection;
+    protected MessageToSendRepository messageSendRepository;
 
     Logger logger = LoggerFactory.getLogger(MessengerController.class);
 
@@ -60,16 +60,16 @@ public abstract class MessengerController {
             try{
                 if (intermediateCommand.getParams().size() == 0)
                     executeCommand(message)
-                        .ifPresent(sendMessage -> sendMessageCollection.addMessage(sendMessage, true));
+                        .ifPresent(sendMessage -> messageSendRepository.insert(sendMessage));
                 else
                     executeCommandParams(
                             message,
                             Parser.parseToParams(intermediateCommand,  getTypeParams()))
-                            .ifPresent(sendMessage -> sendMessageCollection.addMessage(sendMessage, true));
+                            .ifPresent(sendMessage -> messageSendRepository.insert(sendMessage));
             }
             catch (Exception e) {
                 logger.info(e.getMessage());
-                sendMessageCollection.addMessage(newMessage(message, e.getMessage()), true);
+                messageSendRepository.insert(newMessage(message, e.getMessage()));
             }
         }
     }

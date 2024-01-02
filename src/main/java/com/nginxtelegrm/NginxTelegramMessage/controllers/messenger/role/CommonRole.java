@@ -1,7 +1,7 @@
 package com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.role;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.role.TelegramRole;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 import org.springframework.stereotype.Component;
 
 @Component

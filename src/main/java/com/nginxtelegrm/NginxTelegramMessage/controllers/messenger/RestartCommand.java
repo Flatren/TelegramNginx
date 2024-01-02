@@ -2,7 +2,7 @@ package com.nginxtelegrm.NginxTelegramMessage.controllers.messenger;
 
 import com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.role.AdminRole;
 import com.nginxtelegrm.NginxTelegramMessage.core.controller.MessengerController;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

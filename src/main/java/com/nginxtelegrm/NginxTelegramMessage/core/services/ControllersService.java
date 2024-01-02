@@ -1,8 +1,8 @@
-package com.nginxtelegrm.NginxTelegramMessage.core.service;
+package com.nginxtelegrm.NginxTelegramMessage.core.services;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.controller.MessengerController;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;

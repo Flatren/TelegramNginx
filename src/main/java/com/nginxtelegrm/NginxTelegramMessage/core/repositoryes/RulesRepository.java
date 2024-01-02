@@ -1,7 +1,7 @@
-package com.nginxtelegrm.NginxTelegramMessage.repositoryes;
+package com.nginxtelegrm.NginxTelegramMessage.core.repositoryes;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.Rule;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.Rule;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

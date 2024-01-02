@@ -1,17 +1,15 @@
-package com.nginxtelegrm.NginxTelegramMessage.services;
+package com.nginxtelegrm.NginxTelegramMessage.core.services;
 
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Bots;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.ConfigRules;
-import com.nginxtelegrm.NginxTelegramMessage.repositoryes.RulesRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Parser;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Bots;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.ConfigRules;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RulesRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.net.ConnectException;
 
 @Service
 public class UpdateRuleService {
@@ -30,6 +28,7 @@ public class UpdateRuleService {
     public void PostConstruct(){
         update();
     }
+
     @SneakyThrows
     public void update(){
 

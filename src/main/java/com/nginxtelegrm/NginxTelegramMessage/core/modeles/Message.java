@@ -1,5 +1,6 @@
-package com.nginxtelegrm.NginxTelegramMessage.modeles;
+package com.nginxtelegrm.NginxTelegramMessage.core.modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,13 @@ public class Message {
         this.idTread = idTread;
     }
 
+    @JsonIgnore
     org.telegram.telegrambots.meta.api.objects.Message message;
-
+    @JsonIgnore
+    Boolean isLogMessage=false;
+    @JsonIgnore
     Long id;
-    @JsonProperty("Id")
+    @JsonProperty("idMessage")
     Integer idMessage;
     @JsonProperty("chat")
     Long idChat;

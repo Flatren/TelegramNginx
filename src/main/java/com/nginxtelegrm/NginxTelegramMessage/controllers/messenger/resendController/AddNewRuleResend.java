@@ -4,10 +4,10 @@ import com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.role.AdminRol
 import com.nginxtelegrm.NginxTelegramMessage.core.controller.MessengerController;
 import com.nginxtelegrm.NginxTelegramMessage.core.utilites.map.Map;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleResendMessageChats;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleChatToChat;
 import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RuleResendMessageRepository;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.services.Parser;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class AddNewRuleResend extends MessengerController {
     public Optional<Message> executeCommandParams(Message message, ArrayList<Object> params){
         IntermediateRuleResendMessageChats intermediateRuleResendMessageChats =
             Parser.parseIntermediateRuleResendMessageChats((String) params.get(0));
-        RuleResend ruleResend = Map.map(intermediateRuleResendMessageChats);
+        RuleChatToChat ruleResend = Map.map(intermediateRuleResendMessageChats);
         if (ruleResendMessageRepository.insert(ruleResend))
             return Optional.of(newMessage(message, "Правило успешно добавлено"));
         else

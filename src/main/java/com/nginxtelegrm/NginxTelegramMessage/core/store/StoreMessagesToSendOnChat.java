@@ -1,6 +1,6 @@
 package com.nginxtelegrm.NginxTelegramMessage.core.store;
 
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;

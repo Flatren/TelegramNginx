@@ -1,7 +1,7 @@
 package com.nginxtelegrm.NginxTelegramMessage.core.repositoryes;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleChatToChat;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleTime;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class RuleResendMessageRepository {
     @Autowired
     RulesChatToChatRepository rulesChatToChatRepository;
 
-    HashMap<String, RuleResend> ruleResendHashMap = new HashMap<>();
+    HashMap<String, RuleChatToChat> ruleResendHashMap = new HashMap<>();
 
     @PostConstruct
     public void PostConstruct(){
@@ -26,7 +26,7 @@ public class RuleResendMessageRepository {
         );
     }
 
-    public boolean insert(RuleResend ruleResend){
+    public boolean insert(RuleChatToChat ruleResend){
         if (ruleResendHashMap.containsKey(ruleResend.getNameRule()))
             return false;
         rulesChatToChatRepository.insert(ruleResend);
@@ -34,18 +34,18 @@ public class RuleResendMessageRepository {
         return true;
     }
 
-    public boolean delete(RuleResend ruleResend){
-        if (!ruleResendHashMap.containsKey(ruleResend.getNameRule()))
+    public boolean delete(String nameRule){
+        if (!ruleResendHashMap.containsKey(nameRule))
             return false;
-        ruleResendHashMap.remove(ruleResend.getNameRule());
-        rulesChatToChatRepository.delete(ruleResend.getNameRule());
+        ruleResendHashMap.remove(nameRule);
+        rulesChatToChatRepository.delete(nameRule);
         return true;
     }
 
-    public boolean update(RuleResend ruleResend){
+    public boolean update(RuleChatToChat ruleResend){
         if (!ruleResendHashMap.containsKey(ruleResend.getNameRule()))
             return false;
-        RuleResend updateRuleResend = ruleResendHashMap.get(ruleResend.getNameRule());
+        RuleChatToChat updateRuleResend = ruleResendHashMap.get(ruleResend.getNameRule());
 
         if (ruleResend.getInfo() != null)
             updateRuleResend.setInfo(ruleResend.getInfo());
@@ -65,15 +65,15 @@ public class RuleResendMessageRepository {
         return true;
     }
 
-    public RuleResend get(String nameRule){
+    public RuleChatToChat get(String nameRule){
         return ruleResendHashMap.get(nameRule);
     }
 
-    public List<RuleResend> getAll(){
+    public List<RuleChatToChat> getAll(){
         return ruleResendHashMap.values().stream().toList();
     }
 
-    public List<RuleResend> select(AddressChat addressChat, String text){
+    public List<RuleChatToChat> select(AddressChat addressChat, String text){
         return ruleResendHashMap.values().stream()
                 .filter(ruleResend -> ruleResend.getFrom().contains(addressChat))
                 .filter(ruleResend -> {

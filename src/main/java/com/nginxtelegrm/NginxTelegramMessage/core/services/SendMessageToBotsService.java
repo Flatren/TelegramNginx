@@ -1,8 +1,10 @@
-package com.nginxtelegrm.NginxTelegramMessage.services;
+package com.nginxtelegrm.NginxTelegramMessage.core.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Command;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.Rule;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.response.ResponseMessage;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.Rule;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Mappers;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,6 @@ import java.net.http.HttpResponse;
 @Service
 public class SendMessageToBotsService {
 
-
-
     private HttpRequest buildPostHttpRequest(String url, String content){
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -24,6 +24,7 @@ public class SendMessageToBotsService {
                 .setHeader("Content-Type", "application/json")
                 .build();
     }
+
     private HttpRequest buildGetHttpRequest(String url){
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -45,13 +46,14 @@ public class SendMessageToBotsService {
     public void sendCommand(Command command, Rule rule) {
         String jsonTextRequest = new ObjectMapper().writeValueAsString(command.getParams());
         HttpRequest httpRequest = buildPostHttpRequest(rule.getToAddress() + command.getCommand(), jsonTextRequest);
-        String result = sendHttpRequest(httpRequest);
+        ResponseMessage result = Mappers.getObjectJson(sendHttpRequest(httpRequest), ResponseMessage.class);
     }
 
+    @SneakyThrows
     public void sendDefault(String text, Rule rule){
         HttpRequest httpRequest =
                 buildPostHttpRequest(rule.getToAddress() +rule.getSimpleMessages().getTo(),
                         text);
-        String result = sendHttpRequest(httpRequest);
+        ResponseMessage result = Mappers.getObjectJson(sendHttpRequest(httpRequest), ResponseMessage.class);
     }
 }

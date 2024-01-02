@@ -1,7 +1,7 @@
 package com.nginxtelegrm.NginxTelegramMessage.configurations;
 
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Bots;
-import com.nginxtelegrm.NginxTelegramMessage.repositoryes.ConfigRepository;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Bots;
+import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
-package com.nginxtelegrm.NginxTelegramMessage.modeles;
+package com.nginxtelegrm.NginxTelegramMessage.core.modeles;
 
 import java.util.List;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.Rule;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.Rule;
 import lombok.Getter;
 import lombok.Setter;
 

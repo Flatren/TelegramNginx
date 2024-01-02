@@ -2,12 +2,8 @@ package com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.resendContro
 
 import com.nginxtelegrm.NginxTelegramMessage.controllers.messenger.role.AdminRole;
 import com.nginxtelegrm.NginxTelegramMessage.core.controller.MessengerController;
-import com.nginxtelegrm.NginxTelegramMessage.core.utilites.map.Map;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleResendMessageChats;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.RuleResendMessageInChats.RuleResend;
 import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.RuleResendMessageRepository;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.services.Parser;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +21,7 @@ public class DeleteRuleResend extends MessengerController {
 
     @Override
     public Optional<Message> executeCommandParams(Message message, ArrayList<Object> params){
-        IntermediateRuleResendMessageChats intermediateRuleResendMessageChats =
-                Parser.parseIntermediateRuleResendMessageChats((String) params.get(0));
-        RuleResend ruleResend = Map.map(intermediateRuleResendMessageChats);
-        if (ruleResendMessageRepository.delete(ruleResend))
+        if (ruleResendMessageRepository.delete((String) params.get(0)))
             return Optional.of(newMessage(message, "Правило успешно удалено."));
         else
             return Optional.of(newMessage(message, "Правило с данным именем отсутствует."));

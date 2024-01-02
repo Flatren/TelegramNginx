@@ -1,4 +1,4 @@
-package com.nginxtelegrm.NginxTelegramMessage.modeles;
+package com.nginxtelegrm.NginxTelegramMessage.core.modeles;
 
 
 import lombok.AllArgsConstructor;

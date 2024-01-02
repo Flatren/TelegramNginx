@@ -1,9 +1,9 @@
-package com.nginxtelegrm.NginxTelegramMessage.services;
+package com.nginxtelegrm.NginxTelegramMessage.core.utilites;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Command;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.InfoCommand;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.InfoCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 

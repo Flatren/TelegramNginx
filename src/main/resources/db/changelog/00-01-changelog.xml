@@ -41,17 +41,17 @@
     <changeSet id="251220231045" author="alex">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                SELECT count(*) FROM information_schema.tables WHERE table_name = 'MESSAGES';
+                SELECT count(*) FROM information_schema.tables WHERE table_name = 'MESSAGE_TO_SEND';
             </sqlCheck>
         </preConditions>
-        <comment>create MESSAGES</comment>
+        <comment>create MESSAGE_TO_SEND</comment>
         <sql><![CDATA[
-            create table if not exists MESSAGES
+            create table if not exists MESSAGE_TO_SEND
             (
                 ID BIGSERIAL PRIMARY KEY,
                 MESSAGE_JSON TEXT,
-                IS_NO_TRY_SEND BOOLEAN,
-                DATETIME_INSERT TIMESTAMP
+                DATETIME_SEND TIMESTAMP,
+                IS_SEND BOOLEAN
             );
             ]]>
         </sql>
@@ -60,55 +60,17 @@
     <changeSet id="291220231023" author="alex">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                SELECT count(*) FROM information_schema.tables WHERE table_name = 'ERROR_SEND_MESSAGE';
+                SELECT count(*) FROM information_schema.tables WHERE table_name = 'ERROR_MESSAGE_TO_SEND';
             </sqlCheck>
         </preConditions>
-        <comment>create ERROR_SEND_MESSAGE</comment>
+        <comment>create ERROR_MESSAGE_TO_SEND</comment>
         <sql><![CDATA[
-            create table if not exists ERROR_SEND_MESSAGE
+            create table if not exists ERROR_MESSAGE_TO_SEND
             (
                 ID BIGSERIAL PRIMARY KEY,
                 ID_MESSAGE BIGINT,
                 TEXT_ERROR_SEND TEXT,
                 DATETIME_ERROR TIMESTAMP
-            );
-            ]]>
-        </sql>
-
-    </changeSet>
-    <changeSet id="291220231510" author="alex">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">
-                SELECT count(*) FROM information_schema.tables WHERE table_name = 'SEND_MESSAGE';
-            </sqlCheck>
-        </preConditions>
-        <comment>create ERROR_SEND_MESSAGE</comment>
-        <sql><![CDATA[
-            create table if not exists SEND_MESSAGE
-            (
-                ID BIGSERIAL PRIMARY KEY,
-                ID_MESSAGE BIGINT,
-                ID_MESSAGE_IN_MESSENGER BIGINT,
-                DATETIME_SEND TIMESTAMP
-            );
-            ]]>
-        </sql>
-
-    </changeSet>
-    <changeSet id="301220231434" author="alex">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">
-                SELECT count(*) FROM information_schema.tables WHERE table_name = 'RECEIVED_MESSAGE';
-            </sqlCheck>
-        </preConditions>
-        <comment>create RECEIVED_MESSAGE</comment>
-        <sql><![CDATA[
-            create table if not exists RECEIVED_MESSAGE
-            (
-                ID BIGSERIAL PRIMARY KEY,
-                MESSAGE_JSON TEXT,
-                IS_PROCESSED BOOLEAN,
-                DATETIME_RECEIVED TIMESTAMP
             );
             ]]>
         </sql>

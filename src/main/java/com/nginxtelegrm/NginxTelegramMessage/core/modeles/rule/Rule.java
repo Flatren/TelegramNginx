@@ -1,4 +1,4 @@
-package com.nginxtelegrm.NginxTelegramMessage.modeles.rule;
+package com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.AddressChat;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.SimpleMessages;

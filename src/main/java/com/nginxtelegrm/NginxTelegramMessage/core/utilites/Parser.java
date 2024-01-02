@@ -1,8 +1,8 @@
-package com.nginxtelegrm.NginxTelegramMessage.services;
+package com.nginxtelegrm.NginxTelegramMessage.core.utilites;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateRuleResendMessageChats;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.ConfigRules;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.ConfigRules;
 import com.nginxtelegrm.NginxTelegramMessage.core.exceptions.TypeException;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -100,17 +100,22 @@ public class Parser {
                     stringBuilder = new StringBuilder();
                 }
             }
+
+            if (spec){
+                switch (ch) {
+                    case '"', 'n', '\\' -> stringBuilder.append(ch);
+                }
+                spec = false;
+                continue;
+            }
+
             if (!isOpen && ch == '\\') {
                 spec = true;
             }
+
             if (!isOpen && !spec) {
                 stringBuilder.append(ch);
             }
-            if (spec && ch == '"') {
-                stringBuilder.append(ch);
-                spec = false;
-            }
-
         }
         if (!stringBuilder.isEmpty()){
             if (stringBuilder.length()>1 &&

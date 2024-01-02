@@ -1,11 +1,9 @@
 package com.nginxtelegrm.NginxTelegramMessage;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.enums.TypeError;
-import com.nginxtelegrm.NginxTelegramMessage.core.repositoryes.ReceivedMessageRepository;
-import com.nginxtelegrm.NginxTelegramMessage.core.service.MessageToSendService;
-import com.nginxtelegrm.NginxTelegramMessage.core.service.MessengerService;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.services.Map;
+import com.nginxtelegrm.NginxTelegramMessage.core.services.MessengerService;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
+import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +55,8 @@ public class Telegram extends TelegramLongPollingBot{
             try{
                 org.telegram.telegrambots.meta.api.objects.Message message =
                         execute(Map.mapSendMessage(item));
-                messengerService.confirmSendingTheMessage(item, message.getMessageId());
+                item.setIdMessage(message.getMessageId());
+                messengerService.confirmSendingTheMessage(item);
             }
             catch (Exception e){
                 //Говорим что была ошибка

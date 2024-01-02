@@ -1,8 +1,8 @@
-package com.nginxtelegrm.NginxTelegramMessage.services;
+package com.nginxtelegrm.NginxTelegramMessage.core.utilites;
 
 import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Intermediate.IntermediateCommand;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.ResultCheckTypeParams;
-import com.nginxtelegrm.NginxTelegramMessage.modeles.rule.InfoCommand;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.ResultCheckTypeParams;
+import com.nginxtelegrm.NginxTelegramMessage.core.modeles.rule.InfoCommand;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
