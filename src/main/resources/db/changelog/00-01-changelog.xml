@@ -51,7 +51,7 @@
                 ID BIGSERIAL PRIMARY KEY,
                 MESSAGE_JSON TEXT,
                 DATETIME_SEND TIMESTAMP,
-                IS_SEND BOOLEAN
+                STATUS INT
             );
             ]]>
         </sql>
@@ -74,6 +74,23 @@
             );
             ]]>
         </sql>
+
+    </changeSet>
+    <changeSet id="300120241214" author="alex">
+    <preConditions onFail="MARK_RAN">
+        <sqlCheck expectedResult="0">
+            SELECT count(*) FROM information_schema.tables WHERE table_name = 'CONFIG_APPLICATION';
+        </sqlCheck>
+    </preConditions>
+    <comment>create CONFIG_APPLICATION</comment>
+    <sql><![CDATA[
+                create table if not exists CONFIG_APPLICATION
+                (
+                    NAME TEXT PRIMARY KEY,
+                    CONFIG_JSON TEXT
+                );
+                ]]>
+    </sql>
 
     </changeSet>
 </databaseChangeLog>

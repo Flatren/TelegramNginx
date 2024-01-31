@@ -1,20 +1,21 @@
 package com.nginxtelegrm.NginxTelegramMessage;
 
-import com.nginxtelegrm.NginxTelegramMessage.core.enums.TypeError;
-import com.nginxtelegrm.NginxTelegramMessage.core.services.MessengerService;
-import com.nginxtelegrm.NginxTelegramMessage.core.modeles.Message;
-import com.nginxtelegrm.NginxTelegramMessage.core.utilites.Map;
+
+import com.nginxtelegrm.NginxTelegramMessage.enums.MessageType;
+import com.nginxtelegrm.NginxTelegramMessage.service.GuidingService;
+import com.nginxtelegrm.NginxTelegramMessage.util.map.MessageCallBackRequestMap;
+import com.nginxtelegrm.NginxTelegramMessage.util.map.MessageRequestMap;
+import com.nginxtelegrm.NginxTelegramMessage.util.telegramUpdate.TypeTelegramMessageIdentify;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.List;
 
 @Component
 public class Telegram extends TelegramLongPollingBot{
@@ -23,7 +24,7 @@ public class Telegram extends TelegramLongPollingBot{
     Logger logger = LoggerFactory.getLogger(Telegram.class);
 
     @Autowired
-    MessengerService messengerService;
+    GuidingService guidingService;
 
     public Telegram(@Value("${bot.token}") String botToken,
                     @Value("${bot.name}") String botUsername) {
@@ -31,38 +32,23 @@ public class Telegram extends TelegramLongPollingBot{
         this.botUsername = botUsername;
     }
 
-
+    @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        messengerService.processTheMessage(Map.mapToMessageMessenger(update));
+        MessageType messageType = TypeTelegramMessageIdentify.identify(update);
+        switch (messageType) {
+            case MESSAGE -> {
+                guidingService.direct(MessageRequestMap.map(update.getMessage()));
+            }
+            case CALLBACK -> {
+                guidingService.direct(MessageCallBackRequestMap.map(update.getCallbackQuery()));
+            }
+        }
+
     }
 
     @Override
     public String getBotUsername() {
         return botUsername;
-    }
-
-
-
-    @Scheduled(fixedDelay = 1000)
-    public void sendMessage(){
-        //Берем сообщения на отправку
-
-        List<Message> messageListToSend = messengerService.getListSendMessage();
-        //отправляем
-        messageListToSend.forEach(item->{
-            //Проверяем ошибки
-            try{
-                org.telegram.telegrambots.meta.api.objects.Message message =
-                        execute(Map.mapSendMessage(item));
-                item.setIdMessage(message.getMessageId());
-                messengerService.confirmSendingTheMessage(item);
-            }
-            catch (Exception e){
-                //Говорим что была ошибка
-                messengerService.ReportError(item, e.getMessage(), TypeError.INTERNET);
-                logger.error(e.getMessage());
-            }
-        });
     }
 }
